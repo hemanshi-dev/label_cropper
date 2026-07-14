@@ -389,6 +389,13 @@ const VOLUMETRIC_DIVISOR = 5000; // standard domestic divisor (cm -> kg)
 let _ai: GoogleGenAI | undefined;
 
 function buildGenAIClient() {
+  if (process.env.GEMINI_API_KEY) {
+    console.log(`✅ GenAI client initialised via API Key — model: ${IMAGE_MODEL}`);
+    return new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+    });
+  }
+
   if (!fs.existsSync(CREDENTIALS_PATH)) {
     console.warn(`Credentials file not found: ${CREDENTIALS_PATH}`);
     return undefined;
@@ -403,7 +410,7 @@ function buildGenAIClient() {
 
   const ai = new GoogleGenAI({
     vertexai: true,
-    project: 'project-325b6d5e-3e97-43e5-80f',
+    project: process.env.GOOGLE_CLOUD_PROJECT || 'project-325b6d5e-3e97-43e5-80f',
     location: 'us-central1',
     googleAuthOptions: {
       authClient,
