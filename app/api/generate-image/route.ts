@@ -389,10 +389,11 @@ const VOLUMETRIC_DIVISOR = 5000; // standard domestic divisor (cm -> kg)
 let _ai: GoogleGenAI | undefined;
 
 function buildGenAIClient() {
-  if (process.env.GEMINI_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (apiKey) {
     console.log(`✅ GenAI client initialised via API Key — model: ${IMAGE_MODEL}`);
     return new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
+      apiKey: apiKey,
     });
   }
 
