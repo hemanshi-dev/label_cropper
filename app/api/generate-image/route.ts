@@ -531,8 +531,8 @@ export async function POST(req: Request) {
       throw new Error('No image data found in response.');
     }
 
-    const finalImageBuffer = Buffer.from(imagePart.inlineData.data as string, 'base64');
-    const finalMimeType = imagePart.inlineData.mimeType || 'image/jpeg';
+    const finalImageBuffer = Buffer.from(imagePart.inlineData!.data as string, 'base64');
+    const finalMimeType = imagePart.inlineData!.mimeType || 'image/jpeg';
 
     // Step 2: Image Analyzer & Dimensions Estimation
     const analyzerPrompt = `You are a logistics expert. Analyze this product image and estimate its typical retail dimensions in centimeters and weight in grams. Return ONLY a valid JSON object with the following exact keys: "length", "width", "height", "weight". Do not include any markdown formatting or extra text.`;
